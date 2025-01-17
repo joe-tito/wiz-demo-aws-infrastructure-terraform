@@ -51,7 +51,7 @@ resource "aws_instance" "mongo" {
 
               echo "use admin" >> /tmp/mongo-setup.js
               echo 'db.createUser({ user: "${var.mongo_user}", pwd: "${var.mongo_password}", roles: ["userAdminAnyDatabase"] })' >> /tmp/mongo-setup.js
-              mongosh < mongo-setup.js
+              mongosh < /tmp/mongo-setup.js
               rm /tmp/mongo-setup.js
 
               sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
