@@ -1,3 +1,3 @@
-variable "public_key" {
+variable "key_pair_name" {
   type = string
 }
