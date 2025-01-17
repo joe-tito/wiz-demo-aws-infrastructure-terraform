@@ -16,3 +16,10 @@ provider "aws" {
 resource "aws_s3_bucket" "this" {
   bucket = "wiz-demo-mongo-snapshots"
 }
+
+resource "aws_s3_bucket_public_access_block" "this" {
+  bucket = aws_s3_bucket.aws_s3_bucket.id
+
+  block_public_acls   = false
+  block_public_policy = false
+}
