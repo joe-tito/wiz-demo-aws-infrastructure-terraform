@@ -34,4 +34,5 @@ resource "aws_instance" "mongo" {
               systemctl start mongod
               systemctl enable mongodb
               EOF
+  depends_on                  = [aws_security_group.this]
 }
