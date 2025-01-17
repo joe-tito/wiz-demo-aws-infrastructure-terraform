@@ -50,9 +50,12 @@ resource "aws_instance" "mongo" {
               sleep 30
 
               echo "use admin" >> /tmp/mongo-setup.js
-              echo 'db.createUser({ user: "${var.mongo_user}", pwd: "${var.mongo_password}", roles: ["userAdminAnyDatabase"] })' >> /tmp/mongo-setup.js
+              echo 'db.createUser({ user: "${var.mongo_user}", pwd: "${var.mongo_password}", roles: ["userAdminAnyDatabase", "readWriteAnyDatabase"] })' >> /tmp/mongo-setup.js
               mongosh < /tmp/mongo-setup.js
               rm /tmp/mongo-setup.js
+
+              echo "security:" >> /etc/mongod.conf
+              echo "    authorization: enabled" >> /etc/mongod.conf
 
               sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 
