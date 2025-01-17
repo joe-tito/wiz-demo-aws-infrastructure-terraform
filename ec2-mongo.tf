@@ -1,7 +1,7 @@
-resource "aws_key_pair" "this" {
-  key_name   = "joe-laptop"
-  public_key = var.public_key
-}
+# resource "aws_key_pair" "this" {
+#   key_name   = "joe-laptop"
+#   public_key = var.public_key
+# }
 
 resource "aws_security_group" "this" {
   name = "mongo-db-security-group"
