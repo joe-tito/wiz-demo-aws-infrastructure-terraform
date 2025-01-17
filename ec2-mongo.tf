@@ -53,6 +53,8 @@ resource "aws_instance" "mongo" {
 
               sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 
+              systemctl restart mongod
+
               EOF
   depends_on                  = [aws_security_group.this]
 }
