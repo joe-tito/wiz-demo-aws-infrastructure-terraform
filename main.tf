@@ -14,5 +14,5 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "this" {
-  bucket = "mongo-snapshots"
+  bucket = "wiz-demo-mongo-snapshots"
 }
