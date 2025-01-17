@@ -3,7 +3,7 @@ resource "aws_security_group" "this" {
   name = "mongo-db-security-group"
 
   ingress {
-    description = "MongoDB"
+    description = "Mongo"
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
@@ -19,6 +19,7 @@ resource "aws_security_group" "this" {
   }
 
   egress {
+    description = "Internet"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -51,6 +52,9 @@ resource "aws_instance" "mongo" {
 
               echo "use admin" >> /tmp/mongo-setup.js
               echo 'db.createUser({ user: "${var.mongo_user}", pwd: "${var.mongo_password}", roles: ["userAdminAnyDatabase", "readWriteAnyDatabase"] })' >> /tmp/mongo-setup.js
+              echo "use demo" >> /tmp/mongo-setup.js
+              echo "db.createCollection('reasons')" >> /tmp/mongo-setup.js
+              echo 'db.reasons.insertMany(['He built this super cool three-tied web app demo', 'He would be a great addition to the team', 'He built this entire demo with Terraform. How cool is that?', 'He was obsessed with Wizards as a child'])' >> /tmp/mongo-setup.js
               mongosh < /tmp/mongo-setup.js
               rm /tmp/mongo-setup.js
 
