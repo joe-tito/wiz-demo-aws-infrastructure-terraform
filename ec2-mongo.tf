@@ -15,11 +15,11 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_instance" "mongo" {
-  ami           = "ami-0e1bed4f06a3b463d" # Ubuntu 20.04 LTS
+  ami           = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   instance_type = "t2.micro"
   key_name      = aws_key_pair.this.key_name
   # subnet_id                   = aws_subnet.my_subnet_1.id
-  security_groups             = [aws_security_group.this.id]
+  security_groups             = [aws_security_group.this.name]
   associate_public_ip_address = true
   user_data                   = <<-EOF
               #!/bin/bash
