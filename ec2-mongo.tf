@@ -51,10 +51,10 @@ resource "aws_instance" "mongo" {
               sleep 30
 
               echo "use admin" >> /tmp/mongo-setup.js
-              echo 'db.createUser({ user: "${var.mongo_user}", pwd: "${var.mongo_password}", roles: ["userAdminAnyDatabase", "readWriteAnyDatabase"] })' >> /tmp/mongo-setup.js
+              echo "db.createUser({ user: '${var.mongo_user}', pwd: '${var.mongo_password}', roles: ['userAdminAnyDatabase', 'readWriteAnyDatabase'] })" >> /tmp/mongo-setup.js
               echo "use demo" >> /tmp/mongo-setup.js
               echo "db.createCollection('reasons')" >> /tmp/mongo-setup.js
-              echo 'db.reasons.insertMany(['He built this super cool three-tied web app demo', 'He would add yet another, Joe, to the team!', 'He built this entire demo with Terraform. How cool is that?', 'He was obsessed with Wizards as a kid!'])' >> /tmp/mongo-setup.js
+              echo "db.reasons.insertMany(['He built this super cool three-tied web app demo', 'He would add yet another, Joe, to the team!', 'He built this entire demo with Terraform. How cool is that?', 'He was obsessed with Wizards as a kid! Coincidence?'])" >> /tmp/mongo-setup.js
               mongosh < /tmp/mongo-setup.js
               rm /tmp/mongo-setup.js
 
