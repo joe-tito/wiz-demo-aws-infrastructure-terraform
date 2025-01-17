@@ -1,14 +1,26 @@
 resource "aws_security_group" "this" {
+
   name = "mongo-db-security-group"
+
   ingress {
+    description = "MongoDB"
     from_port   = 27017
     to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 0
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
 resource "aws_instance" "mongo" {
+
   ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   instance_type               = "t2.micro"
   key_name                    = var.key_pair_name
