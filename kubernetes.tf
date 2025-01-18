@@ -1,3 +1,8 @@
+locals {
+  container_name = "wiz-demo-web-app"
+  container_port = 3000
+}
+
 # ########################
 # ### Container registry
 # ########################
@@ -41,7 +46,7 @@ module "ecs" {
 
   services = {
 
-    wiz-demo = {
+    wiz-demo-web-app = {
       cpu    = 1024
       memory = 4096
 
@@ -59,7 +64,7 @@ module "ecs" {
         #   memory_reservation = 50
         # }
 
-        web-app = {
+        (local.container_name) = {
           cpu       = 512
           memory    = 1024
           essential = true
@@ -67,8 +72,8 @@ module "ecs" {
           //image     = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
           port_mappings = [
             {
-              containerPort = 3000
-              hostPort      = 3000
+              containerPort = local.container_port
+              hostPort      = local.container_port
             }
           ]
 
@@ -98,19 +103,19 @@ module "ecs" {
         namespace = aws_service_discovery_http_namespace.this.arn
         service = {
           client_alias = {
-            port     = 80
-            dns_name = "ecs-sample"
+            port     = local.container_port
+            dns_name = local.container_name
           }
-          port_name      = "ecs-sample"
-          discovery_name = "ecs-sample"
+          port_name      = local.container_name
+          discovery_name = local.container_name
         }
       }
 
       load_balancer = {
         service = {
           target_group_arn = module.alb.target_groups["ex_ecs"].arn
-          container_name   = "ecs-sample"
-          container_port   = 80
+          container_name   = local.container_name
+          container_port   = local.container_port
         }
       }
 
@@ -119,11 +124,11 @@ module "ecs" {
       security_group_rules = {
         alb_ingress_3000 = {
           type                     = "ingress"
-          from_port                = 80
-          to_port                  = 80
+          from_port                = local.container_port
+          to_port                  = local.container_port
           protocol                 = "tcp"
           description              = "Service port"
-          source_security_group_id = "sg-12345678"
+          source_security_group_id = module.alb.security_group_id
         }
         egress_all = {
           type        = "egress"
@@ -178,7 +183,7 @@ module "alb" {
   target_groups = {
     ex_ecs = {
       backend_protocol                  = "HTTP"
-      backend_port                      = 3000
+      backend_port                      = local.container_port
       target_type                       = "ip"
       deregistration_delay              = 5
       load_balancing_cross_zone_enabled = true
