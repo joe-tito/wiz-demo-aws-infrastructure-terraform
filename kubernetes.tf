@@ -191,3 +191,8 @@ resource "aws_security_group" "web_app_service_security_group" {
     cidr_blocks = ["0.0.0.0/0"] # Allowing traffic out to all IP addresses
   }
 }
+
+output "lb_dns" {
+  value       = aws_alb.this.dns_name
+  description = "AWS load balancer DNS Name"
+}
