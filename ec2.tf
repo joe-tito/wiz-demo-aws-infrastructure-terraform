@@ -13,7 +13,7 @@ module "ec2_instance" {
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
     # aws_security_group.ingress_ssh_all.id,
-    # aws_security_group.egress_internet.id
+    aws_security_group.egress_internet.id
   ]
 
   user_data = <<-EOF
