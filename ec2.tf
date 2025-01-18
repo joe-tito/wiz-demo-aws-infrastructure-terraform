@@ -1,3 +1,7 @@
+########################
+# EC2 Mongo Instance
+########################
+
 module "ec2_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
@@ -8,7 +12,7 @@ module "ec2_instance" {
   subnet_id     = module.vpc.private_subnets[0]
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
-    aws_security_group.ingress_ssh_all.id,
+    # aws_security_group.ingress_ssh_all.id,
     aws_security_group.egress_internet.id
   ]
 

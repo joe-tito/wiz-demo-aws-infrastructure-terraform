@@ -1,3 +1,7 @@
+########################
+# S3 Bucket
+########################
+
 resource "aws_s3_bucket" "this" {
   bucket        = "wiz-demo-mongo-snapshots"
   force_destroy = true
