@@ -79,8 +79,7 @@ module "ecs" {
             }
           ]
 
-          #   # Example image used requires access to write to root filesystem
-          #   readonly_root_filesystem = false
+          readonly_root_filesystem = false
 
           #   dependencies = [{
           #     containerName = "fluent-bit"
