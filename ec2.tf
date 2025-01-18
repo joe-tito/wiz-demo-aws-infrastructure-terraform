@@ -35,7 +35,8 @@ module "ec2_instance" {
   ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   key_name                    = var.key_pair_name
   associate_public_ip_address = true
-  vpc_security_group_ids      = aws_security_group.ec2_mongo_security_group.id
+  subnet_id                   = module.vpc.public_subnets[0]
+  vpc_security_group_ids      = [aws_security_group.ec2_mongo_security_group.id]
 
   user_data = <<-EOF
         #!/bin/bash
