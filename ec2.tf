@@ -47,7 +47,7 @@ module "ec2_instance" {
 }
 
 
-module "ec2_instance" {
+module "ec2_instance_public" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "ec2-mongo-public"
