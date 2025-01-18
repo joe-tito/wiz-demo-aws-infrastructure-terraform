@@ -72,8 +72,10 @@ module "ecs" {
           //image     = "public.ecr.aws/aws-containers/ecsdemo-frontend:776fd50"
           port_mappings = [
             {
+              name          = local.container_name
               containerPort = local.container_port
               hostPort      = local.container_port
+              protocol      = "tcp"
             }
           ]
 
