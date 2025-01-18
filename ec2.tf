@@ -1,6 +1,6 @@
 resource "aws_security_group" "ec2_mongo_security_group" {
-
-  name = "mongo-db-security-group"
+  vpc_id = module.vpc.vpc_id
+  name   = "mongo-db-security-group"
 
   ingress {
     description = "Mongo"
