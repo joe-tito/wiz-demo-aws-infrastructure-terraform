@@ -40,8 +40,8 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
 }
 
 # Creating the task definition
-resource "aws_ecs_task_definition" "nextjs14-task-test" {
-  family                   = "nextjs14-task-test" # Naming our first task
+resource "aws_ecs_task_definition" "this" {
+  family                   = "wiz-demo-web-app-task"
   container_definitions    = <<DEFINITION
   [
     {
@@ -138,16 +138,16 @@ resource "aws_lb_listener" "nextjs14-listener" {
 }
 
 # Creating the service
-resource "aws_ecs_service" "nextjs14-service" {
-  name            = "nextjs14-service"
-  cluster         = aws_ecs_cluster.this.id                        # Referencing our created Cluster
-  task_definition = aws_ecs_task_definition.nextjs14-task-test.arn # Referencing the task our service will spin up
+resource "aws_ecs_service" "this" {
+  name            = "wiz-demo-web-app-service"
+  cluster         = aws_ecs_cluster.this.id          # Referencing our created Cluster
+  task_definition = aws_ecs_task_definition.this.arn # Referencing the task our service will spin up
   launch_type     = "FARGATE"
-  desired_count   = 1 # Setting the number of containers we want deployed to 3
+  desired_count   = 1
 
   load_balancer {
     target_group_arn = aws_lb_target_group.nextjs14-target_group.arn # Referencing our target group
-    container_name   = "nextjs14-container"
+    container_name   = "wiz-demo-web-app-container"
     container_port   = 3000 # Specifying the container port
   }
 
