@@ -50,19 +50,7 @@ module "ecs" {
       cpu    = 1024
       memory = 4096
 
-      # Container definition(s)
       container_definitions = {
-
-        # fluent-bit = {
-        #   cpu       = 512
-        #   memory    = 1024
-        #   essential = true
-        #   image     = "906394416424.dkr.ecr.us-west-2.amazonaws.com/aws-for-fluent-bit:stable"
-        #   firelens_configuration = {
-        #     type = "fluentbit"
-        #   }
-        #   memory_reservation = 50
-        # }
 
         (local.container_name) = {
           cpu       = 512
@@ -80,21 +68,6 @@ module "ecs" {
 
           readonly_root_filesystem = false
 
-          #   dependencies = [{
-          #     containerName = "fluent-bit"
-          #     condition     = "START"
-          #   }]
-
-          #   enable_cloudwatch_logging = false
-          #   log_configuration = {
-          #     logDriver = "awsfirelens"
-          #     options = {
-          #       Name                    = "firehose"
-          #       region                  = "eu-west-1"
-          #       delivery_stream         = "my-stream"
-          #       log-driver-buffer-limit = "2097152"
-          #     }
-          #   }
           memory_reservation = 100
         }
       }
