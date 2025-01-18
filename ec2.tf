@@ -29,6 +29,7 @@ resource "aws_security_group" "this" {
 
 resource "aws_instance" "mongo" {
 
+  subnet_id                   = aws_subnet.private.id
   ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   instance_type               = "t2.micro"
   key_name                    = var.key_pair_name

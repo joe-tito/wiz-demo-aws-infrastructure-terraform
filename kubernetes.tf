@@ -20,7 +20,6 @@ resource "aws_ecs_cluster" "this" {
 # IAM Permissions
 ########################
 
-# creating an iam policy document for ecsTaskExecutionRole
 data "aws_iam_policy_document" "kubernetes_policy_document" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -32,13 +31,11 @@ data "aws_iam_policy_document" "kubernetes_policy_document" {
   }
 }
 
-# creating an iam role with needed permissions to execute tasks
 resource "aws_iam_role" "this" {
   name               = "ecsTaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.kubernetes_policy_document.json
 }
 
-# attaching AmazonECSTaskExecutionRolePolicy to ecsTaskExecutionRole
 resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
@@ -49,7 +46,7 @@ resource "aws_iam_role_policy_attachment" "this" {
 ########################
 
 resource "aws_ecs_task_definition" "this" {
-  family                   = "web-app-task" # Naming our first task
+  family                   = "web-app-task" 
   container_definitions    = <<DEFINITION
   [
     {
@@ -79,22 +76,22 @@ resource "aws_ecs_task_definition" "this" {
 # Load balancer
 ########################
 
-# Providing a reference to our default VPC
-resource "aws_default_vpc" "default_vpc" {
-}
+# # Providing a reference to our default VPC
+# resource "aws_default_vpc" "default_vpc" {
+# }
 
-# Providing a reference to our default subnets
-resource "aws_default_subnet" "default_subnet_a" {
-  availability_zone = "us-east-1a"
-}
+# # Providing a reference to our default subnets
+# resource "aws_default_subnet" "default_subnet_a" {
+#   availability_zone = "us-east-1a"
+# }
 
-resource "aws_default_subnet" "default_subnet_b" {
-  availability_zone = "us-east-1b"
-}
+# resource "aws_default_subnet" "default_subnet_b" {
+#   availability_zone = "us-east-1b"
+# }
 
-resource "aws_default_subnet" "default_subnet_c" {
-  availability_zone = "us-east-1c"
-}
+# resource "aws_default_subnet" "default_subnet_c" {
+#   availability_zone = "us-east-1c"
+# }
 
 resource "aws_alb" "this" {
   name               = "web-app-lb" # Naming our load balancer
@@ -131,6 +128,7 @@ resource "aws_lb_target_group" "this" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
+  vpc_id = module.vpc.default_vpc_id
   vpc_id      = aws_default_vpc.default_vpc.id # Referencing the default VPC
   health_check {
     matcher = "200,301,302"
