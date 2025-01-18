@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "this" {
   container_definitions    = <<DEFINITION
   [
     {
-      "name": "aws-crud-container",
+      "name": "web-app-container",
       "image": "${aws_ecr_repository.this.repository_url}",
       "essential": true,
       "portMappings": [
