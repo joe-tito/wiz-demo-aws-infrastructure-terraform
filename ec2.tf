@@ -1,12 +1,12 @@
 module "ec2_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  name          = "ec2-mongo"
-  instance_type = "t2.micro"
-  ami           = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
-  key_name      = var.key_pair_name
-  # associate_public_ip_address = true
-  subnet_id = module.vpc.private_subnets[0]
+  name                        = "ec2-mongo"
+  instance_type               = "t2.micro"
+  ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
+  key_name                    = var.key_pair_name
+  associate_public_ip_address = false
+  subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
     aws_security_group.ingress_ssh_all.id,
