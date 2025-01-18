@@ -30,7 +30,7 @@ resource "aws_security_group" "ec2_mongo_security_group" {
 
 resource "aws_instance" "mongo" {
 
-  subnet_id                   = module.vpc.public_subnets[0].id
+  subnet_id                   = module.vpc.public_subnets[0]
   ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   instance_type               = "t2.micro"
   key_name                    = var.key_pair_name
