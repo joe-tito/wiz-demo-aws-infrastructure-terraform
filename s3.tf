@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "wiz-demo-mongo-snapshots"
+  bucket        = "wiz-demo-mongo-snapshots"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_ownership_controls" "this" {
