@@ -56,7 +56,7 @@ module "ec2_instance_public" {
   instance_type               = "t2.micro"
   ami                         = "ami-0e1bed4f06a3b463d" # Ubuntu 22.04 LTS
   key_name                    = var.key_pair_name
-  subnet_id                   = module.vpc.private_subnets[0]
+  subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
