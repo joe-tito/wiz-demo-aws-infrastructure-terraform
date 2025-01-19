@@ -119,11 +119,10 @@ resource "aws_iam_role" "admin_role" {
       "Version": "2012-10-17",
       "Statement": [
         {
+          "Sid": "Stmt1737309691255",
+          "Action": "*",
           "Effect": "Allow",
-          "Principal": {
-            "Service": "*"
-          },
-          "Action": "*"
+          "Resource": "*"
         }
       ]
     }
