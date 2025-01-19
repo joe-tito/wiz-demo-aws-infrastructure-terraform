@@ -108,7 +108,7 @@ module "ec2_instance_public" {
         echo "aws s3 mv ./backup.gz s3://wiz-demo-mongo-snapshots/backup-$(date '+%Y-%m-%d-%H:%M:%S').gz" >> /home/ubuntu/backup_mongo.sh
         chmod u+x /home/ubuntu/backup_mongo.sh
 
-        echo "* * * * * /home/ubuntu/backup_mongo.sh" >> /etc/crontab
+        echo "* * * * * root /home/ubuntu/backup_mongo.sh" >> /etc/crontab
 
         EOF
 }
