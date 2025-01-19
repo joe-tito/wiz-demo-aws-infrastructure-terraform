@@ -62,7 +62,7 @@ module "ec2_instance_public" {
   key_name                    = var.key_pair_name
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.admin_instance_profile.name
+  iam_instance_profile        = aws_iam_instance_profile.admin_profile.name
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
     aws_security_group.ingress_ssh_all.id,
@@ -105,8 +105,7 @@ module "ec2_instance_public" {
 
         EOF
 }
-
-resource "aws_iam_instance_profile" "admin_instance_profile" {
+resource "aws_iam_instance_profile" "admin_profile" {
   name = "admin_profile"
   role = aws_iam_role.admin_role.name
 }
@@ -119,9 +118,9 @@ resource "aws_iam_role" "admin_role" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = "*"
-        Resource = "*"
+        Effect    = "Allow"
+        Action    = "*"
+        Principal = "*"
       },
     ]
   })
