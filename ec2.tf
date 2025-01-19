@@ -105,26 +105,50 @@ module "ec2_instance_public" {
 
         EOF
 }
+
 resource "aws_iam_instance_profile" "admin_profile" {
   name = "admin_profile"
   role = aws_iam_role.admin_role.name
 }
 
-
 resource "aws_iam_role" "admin_role" {
   name = "admin_role"
 
   assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-          "Sid": "Stmt1737309691255",
-          "Action": "*",
-          "Effect": "Allow",
-          "Resource": "*"
-        }
-      ]
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
     }
-  EOF
+  ]
+}
+EOF
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+resource "aws_iam_role_policy" "admin_policy" {
+  name = "admin_policy"
+  role = aws_iam_role.admin_role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "*",
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
