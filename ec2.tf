@@ -46,6 +46,10 @@ module "ec2_instance" {
 
         systemctl restart mongod
 
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+
         EOF
 }
 
@@ -58,6 +62,7 @@ module "ec2_instance_public" {
   key_name                    = var.key_pair_name
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.admin_instance_profile
   vpc_security_group_ids = [
     aws_security_group.ingress_mongo_all.id,
     aws_security_group.ingress_ssh_all.id,
@@ -94,5 +99,30 @@ module "ec2_instance_public" {
 
         systemctl restart mongod
 
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+
         EOF
+}
+
+resource "aws_iam_instance_profile" "admin_instance_profile" {
+  name = "admin_profile"
+  role = aws_iam_role.admin_role.name
+}
+
+
+resource "aws_iam_role" "admin_role" {
+  name = "admin_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "*"
+        Resource = "*"
+      },
+    ]
+  })
 }
