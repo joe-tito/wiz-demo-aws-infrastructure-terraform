@@ -114,14 +114,18 @@ resource "aws_iam_instance_profile" "admin_profile" {
 resource "aws_iam_role" "admin_role" {
   name = "admin_role"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect    = "Allow"
-        Action    = "*"
-        Principal = "*"
-      },
-    ]
-  })
+  assume_role_policy = <<EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "*"
+          },
+          "Action": "*"
+        }
+      ]
+    }
+  EOF
 }
