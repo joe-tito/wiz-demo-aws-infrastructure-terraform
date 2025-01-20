@@ -13,9 +13,9 @@ resource "aws_ecr_repository" "this" {
   force_delete         = true
 }
 
-data "aws_iam_policy_document" "example" {
+data "aws_iam_policy_document" "ecr_policy_document" {
   statement {
-    sid    = "new policy"
+    sid    = "AllowPullImages"
     effect = "Allow"
 
     principals {
@@ -24,29 +24,18 @@ data "aws_iam_policy_document" "example" {
     }
 
     actions = [
-      "ecr:GetDownloadUrlForLayer",
+
       "ecr:BatchGetImage",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:PutImage",
-      "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart",
-      "ecr:CompleteLayerUpload",
-      "ecr:DescribeRepositories",
-      "ecr:GetRepositoryPolicy",
+
       "ecr:ListImages",
-      "ecr:DeleteRepository",
-      "ecr:BatchDeleteImage",
-      "ecr:SetRepositoryPolicy",
-      "ecr:DeleteRepositoryPolicy",
+
     ]
   }
 }
 
-
-
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
-  policy     = data.aws_iam_policy_document.example.json
+  policy     = data.ecr_policy_document.example.json
 }
 
 # ########################
