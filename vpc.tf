@@ -13,13 +13,13 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
 
   public_subnet_tags = {
-    "kubernetes.io/role/elb" = 1
-    # "kubernetes.io/cluster/wiz-demo-cluster" = "owned"
+    "kubernetes.io/role/elb"                 = 1
+    "kubernetes.io/cluster/wiz-demo-cluster" = "owned"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = 1
-    # "kubernetes.io/cluster/wiz-demo-cluster" = "owned"
+    "kubernetes.io/role/internal-elb"        = 1
+    "kubernetes.io/cluster/wiz-demo-cluster" = "owned"
   }
 
   enable_nat_gateway = true
