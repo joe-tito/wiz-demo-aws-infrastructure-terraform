@@ -27,6 +27,9 @@ resource "kubernetes_service" "web-app-service" {
 
   metadata {
     name = "${local.container_name}-service"
+    annotations = {
+      "service.beta.kubernetes.io/aws-load-balancer-scheme" : "internet-facing"
+    }
   }
   spec {
     selector = {
@@ -39,6 +42,8 @@ resource "kubernetes_service" "web-app-service" {
     }
 
     type = "LoadBalancer"
+
+
   }
 
 }
