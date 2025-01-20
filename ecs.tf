@@ -13,6 +13,72 @@ resource "aws_ecr_repository" "this" {
   force_delete         = true
 }
 
+# data "aws_iam_policy_document" "example" {
+#   statement {
+#     # sid    = "new policy"
+#     effect = "Allow"
+
+#     principals {
+#       type        = "AWS"
+#       identifiers = ["123456789012"]
+#     }
+
+#     actions = [
+#       "ecr:GetDownloadUrlForLayer",
+#       "ecr:BatchGetImage",
+#       "ecr:BatchCheckLayerAvailability",
+#       "ecr:PutImage",
+#       "ecr:InitiateLayerUpload",
+#       "ecr:UploadLayerPart",
+#       "ecr:CompleteLayerUpload",
+#       "ecr:DescribeRepositories",
+#       "ecr:GetRepositoryPolicy",
+#       "ecr:ListImages",
+#       "ecr:DeleteRepository",
+#       "ecr:BatchDeleteImage",
+#       "ecr:SetRepositoryPolicy",
+#       "ecr:DeleteRepositoryPolicy",
+#     ]
+#   }
+# }
+
+resource "aws_iam_role_policy" "ecr_policy" {
+  name = "ecr_policy"
+  role = aws_iam_role.admin_role.id
+
+  policy = <<EOF
+    {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPushPull",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "${module.eks.cluster_arn},
+                ]
+            },
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart"
+            ]
+        }
+    ]
+}
+  EOF
+}
+
+resource "aws_ecr_repository_policy" "this" {
+  repository = aws_ecr_repository.this.name
+  policy     = aws_iam_role_policy.ecr_policy
+  # policy     = data.aws_iam_policy_document.example.json
+}
+
 # ########################
 # # ECS Cluster
 # ########################

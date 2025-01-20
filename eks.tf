@@ -14,4 +14,5 @@ module "eks" {
     enabled    = true
     node_pools = ["general-purpose"]
   }
+
 }
