@@ -13,69 +13,40 @@ resource "aws_ecr_repository" "this" {
   force_delete         = true
 }
 
-# data "aws_iam_policy_document" "example" {
-#   statement {
-#     # sid    = "new policy"
-#     effect = "Allow"
+data "aws_iam_policy_document" "example" {
+  statement {
+    sid    = "new policy"
+    effect = "Allow"
 
-#     principals {
-#       type        = "AWS"
-#       identifiers = ["123456789012"]
-#     }
+    principals {
+      type        = "AWS"
+      identifiers = [module.eks.cluster_arn]
+    }
 
-#     actions = [
-#       "ecr:GetDownloadUrlForLayer",
-#       "ecr:BatchGetImage",
-#       "ecr:BatchCheckLayerAvailability",
-#       "ecr:PutImage",
-#       "ecr:InitiateLayerUpload",
-#       "ecr:UploadLayerPart",
-#       "ecr:CompleteLayerUpload",
-#       "ecr:DescribeRepositories",
-#       "ecr:GetRepositoryPolicy",
-#       "ecr:ListImages",
-#       "ecr:DeleteRepository",
-#       "ecr:BatchDeleteImage",
-#       "ecr:SetRepositoryPolicy",
-#       "ecr:DeleteRepositoryPolicy",
-#     ]
-#   }
-# }
-
-resource "aws_iam_policy" "ecr_policy" {
-  name = "ecr_policy"
-
-  policy = <<EOF
-    {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowPushPull",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": [
-                    "${module.eks.cluster_arn},
-                ]
-            },
-            "Action": [
-                "ecr:BatchGetImage",
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart"
-            ]
-        }
+    actions = [
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeRepositories",
+      "ecr:GetRepositoryPolicy",
+      "ecr:ListImages",
+      "ecr:DeleteRepository",
+      "ecr:BatchDeleteImage",
+      "ecr:SetRepositoryPolicy",
+      "ecr:DeleteRepositoryPolicy",
     ]
+  }
 }
-  EOF
-}
+
+
 
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
-  policy     = aws_iam_policy.ecr_policy.policy.json
-  # policy     = data.aws_iam_policy_document.example.json
+  policy     = data.aws_iam_policy_document.example.json
 }
 
 # ########################
