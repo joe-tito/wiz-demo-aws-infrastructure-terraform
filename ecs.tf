@@ -74,7 +74,7 @@ resource "aws_iam_policy" "ecr_policy" {
 
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
-  policy     = aws_iam_policy.ecr_policy.policy
+  policy     = aws_iam_policy.ecr_policy.policy.json
   # policy     = data.aws_iam_policy_document.example.json
 }
 
