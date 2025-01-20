@@ -50,7 +50,7 @@ resource "kubernetes_service" "ec2-mongo-service" {
     name = "ec2-mongo-service"
   }
   spec {
-    external_name = "10.0.1.99"
+    external_name = "ip-10-0-1-99.ec2.internal"
     selector = {
       "app.kubernetes.io/name" = "ec2-mongo"
     }
