@@ -24,18 +24,17 @@ data "aws_iam_policy_document" "ecr_policy_document" {
     }
 
     actions = [
-
       "ecr:BatchGetImage",
-
-      "ecr:ListImages",
-
+      "ecr:ListImages"
     ]
   }
 }
 
+
+
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
-  policy     = data.ecr_policy_document.example.json
+  policy     = data.aws_iam_policy_document.ecr_policy_document.json
 }
 
 # ########################
