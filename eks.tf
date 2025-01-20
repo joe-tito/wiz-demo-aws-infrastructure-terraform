@@ -30,7 +30,7 @@ resource "kubernetes_service" "web-app-service" {
   }
   spec {
     selector = {
-      app.kubernetes.io / name = local.container_name
+      "app.kubernetes.io/name" = local.container_name
     }
     session_affinity = "ClientIP"
     port {
@@ -53,14 +53,14 @@ resource "kubernetes_deployment" "web-app" {
 
     selector {
       match_labels = {
-        app.kubernetes.io / name = local.container_name
+        "app.kubernetes.io/name" = local.container_name
       }
     }
 
     template {
       metadata {
         labels = {
-          app.kubernetes.io / name = local.container_name
+          "app.kubernetes.io/name" = local.container_name
         }
       }
 
