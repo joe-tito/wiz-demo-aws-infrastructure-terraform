@@ -42,9 +42,8 @@ resource "aws_ecr_repository" "this" {
 #   }
 # }
 
-resource "aws_iam_role_policy" "ecr_policy" {
+resource "aws_iam_policy" "ecr_policy" {
   name = "ecr_policy"
-  role = aws_iam_role.admin_role.id
 
   policy = <<EOF
     {
@@ -75,7 +74,7 @@ resource "aws_iam_role_policy" "ecr_policy" {
 
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
-  policy     = aws_iam_role_policy.ecr_policy.policy
+  policy     = aws_iam_policy.ecr_policy
   # policy     = data.aws_iam_policy_document.example.json
 }
 
