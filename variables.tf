@@ -12,3 +12,15 @@ variable "mongo_password" {
   type        = string
   description = "Password user to create mongo database"
 }
+
+variable "container_name" {
+  type        = string
+  description = "Name used for the web app container"
+  default     = "web-app"
+}
+
+variable "container_port" {
+  type        = number
+  description = "Port to expose for the web app container"
+  default     = 3000
+}
