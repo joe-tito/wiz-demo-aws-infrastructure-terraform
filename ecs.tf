@@ -19,8 +19,10 @@ data "aws_iam_policy_document" "ecr_policy_document" {
     effect = "Allow"
 
     principals {
-      type        = "AWS"
-      identifiers = [module.eks.cluster_iam_role_arn]
+      type = "AWS"
+      identifiers = [
+        module.eks.cluster_iam_role_arn
+      ]
     }
 
     actions = [
@@ -29,8 +31,6 @@ data "aws_iam_policy_document" "ecr_policy_document" {
     ]
   }
 }
-
-
 
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
