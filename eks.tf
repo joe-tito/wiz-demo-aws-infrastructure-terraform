@@ -42,10 +42,7 @@ resource "kubernetes_service" "web-app-service" {
     }
 
     type = "LoadBalancer"
-
-
   }
-
 }
 
 resource "kubernetes_deployment" "web-app" {
@@ -72,7 +69,7 @@ resource "kubernetes_deployment" "web-app" {
       spec {
         container {
           name  = local.container_name
-          image = aws_ecr_repository.this.repository_url
+          image = "${aws_ecr_repository.this.repository_url}:6ff77586"
 
           port {
             container_port = 3000

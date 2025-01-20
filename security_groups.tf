@@ -1,6 +1,6 @@
 resource "aws_security_group" "ingress_mongo_all" {
 
-  name   = "ingress-mongo-sll"
+  name   = "ingress-mongo-all"
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -14,7 +14,7 @@ resource "aws_security_group" "ingress_mongo_all" {
 
 resource "aws_security_group" "ingress_ssh_all" {
 
-  name   = "ingress-ssh-sll"
+  name   = "ingress-ssh-all"
   vpc_id = module.vpc.vpc_id
 
   ingress {
