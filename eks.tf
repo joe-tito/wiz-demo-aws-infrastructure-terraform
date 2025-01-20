@@ -50,7 +50,8 @@ resource "kubernetes_service" "ec2-mongo-service" {
     name = "ec2-mongo-service"
   }
   spec {
-    external_name = "ip-10-0-1-99.ec2.internal"
+    # external_name = "ip-10-0-1-99.ec2.internal"
+    external_name = module.ec2_instance.private_dns
     selector = {
       "app.kubernetes.io/name" = local.container_name
     }
