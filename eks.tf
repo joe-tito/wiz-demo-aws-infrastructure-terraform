@@ -24,12 +24,13 @@ module "eks" {
 }
 
 resource "kubernetes_service" "web-app-service" {
+
   metadata {
     name = "${local.container_name}-service"
   }
   spec {
     selector = {
-      app = local.container_name
+      app.kubernetes.io / name = local.container_name
     }
     session_affinity = "ClientIP"
     port {
@@ -39,6 +40,7 @@ resource "kubernetes_service" "web-app-service" {
 
     type = "LoadBalancer"
   }
+
 }
 
 resource "kubernetes_deployment" "web-app" {
@@ -51,14 +53,14 @@ resource "kubernetes_deployment" "web-app" {
 
     selector {
       match_labels = {
-        app = local.container_name
+        app.kubernetes.io / name = local.container_name
       }
     }
 
     template {
       metadata {
         labels = {
-          app = local.container_name
+          app.kubernetes.io / name = local.container_name
         }
       }
 
