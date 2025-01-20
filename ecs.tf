@@ -18,10 +18,12 @@ data "aws_iam_policy_document" "example" {
     sid    = "new policy"
     effect = "Allow"
 
-    principals {
-      type        = "AWS"
-      identifiers = [module.eks.cluster_arn]
-    }
+    # principals {
+    #   type        = "AWS"
+    #   identifiers = [module.eks.cluster_arn]
+    # }
+
+    resources = [module.eks.cluster_arn]
 
     actions = [
       "ecr:GetDownloadUrlForLayer",
