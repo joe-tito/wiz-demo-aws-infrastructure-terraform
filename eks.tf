@@ -89,17 +89,6 @@ resource "kubernetes_deployment" "web-app" {
           port {
             container_port = 3000
           }
-
-          resources {
-            limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
-            }
-          }
         }
       }
     }
