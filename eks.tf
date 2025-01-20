@@ -45,6 +45,19 @@ resource "kubernetes_service" "web-app-service" {
   }
 }
 
+resource "kubernetes_service" "ec2-mongo-service" {
+  metadata {
+    name = "ec2-mongo-service"
+  }
+  spec {
+    external_name = "10.0.1.99"
+    selector = {
+      "app.kubernetes.io/name" = "ec2-mongo"
+    }
+    type = "ExternalName"
+  }
+}
+
 resource "kubernetes_deployment" "web-app" {
   metadata {
     name = local.container_name
@@ -69,7 +82,7 @@ resource "kubernetes_deployment" "web-app" {
       spec {
         container {
           name  = local.container_name
-          image = "${aws_ecr_repository.this.repository_url}:6ff77586"
+          image = "${aws_ecr_repository.this.repository_url}:4775640f"
 
           port {
             container_port = 3000
