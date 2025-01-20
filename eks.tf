@@ -52,7 +52,7 @@ resource "kubernetes_service" "ec2-mongo-service" {
   spec {
     external_name = "ip-10-0-1-99.ec2.internal"
     selector = {
-      "app.kubernetes.io/name" = "ec2-mongo"
+      "app.kubernetes.io/name" = local.container_name
     }
     type = "ExternalName"
   }
@@ -82,7 +82,7 @@ resource "kubernetes_deployment" "web-app" {
       spec {
         container {
           name  = local.container_name
-          image = "${aws_ecr_repository.this.repository_url}:4775640f"
+          image = "${aws_ecr_repository.this.repository_url}:34f94baa"
 
           port {
             container_port = 3000
