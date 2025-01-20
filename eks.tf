@@ -1,3 +1,8 @@
+locals {
+  container_name = "web-app"
+  container_port = 3000
+}
+
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
@@ -18,12 +23,7 @@ module "eks" {
 
 }
 
-locals {
-  container_name = "web-app"
-  container_port = 3000
-}
-
-resource "kubernetes_deployment" "example" {
+resource "kubernetes_deployment" "web-app" {
   metadata {
     name = local.container_name
   }
