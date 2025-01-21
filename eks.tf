@@ -84,7 +84,7 @@ resource "kubernetes_deployment" "web-app" {
       spec {
         container {
           name  = var.container_name
-          image = "${aws_ecr_repository.this.repository_url}:72152aa4"
+          image = "${aws_ecr_repository.this.repository_url}:f4287015"
 
           port {
             container_port = 3000
