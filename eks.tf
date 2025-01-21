@@ -38,8 +38,8 @@ resource "kubernetes_service" "web-app-service" {
     }
 
 
-    type                = "LoadBalancer"
-    load_balancer_class = "eks.amazonaws.com/nlb"
+    type = "LoadBalancer"
+    # load_balancer_class = "eks.amazonaws.com/nlb"
   }
 
   wait_for_load_balancer = true
