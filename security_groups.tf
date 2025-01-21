@@ -1,6 +1,6 @@
-resource "aws_security_group" "ingress_mongo_all" {
+resource "aws_security_group" "ingress_mongo" {
 
-  name   = "ingress-mongo-all"
+  name   = "ingress-mongo"
   vpc_id = module.vpc.vpc_id
 
   ingress {
