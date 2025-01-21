@@ -53,7 +53,7 @@ module "ec2_instance" {
 
         echo "#!/bin/bash" >> /home/ubuntu/backup_mongo.sh
         echo "mongodump --uri=\"mongodb://${var.mongo_user}:${var.mongo_password}@localhost:27017\" --gzip --archive=backup.gz" >> /home/ubuntu/backup_mongo.sh
-        echo "aws s3 mv ./backup.gz s3://wiz-demo-mongo-snapshots/backup-\$(date '+%Y-%m-%d-%H:%M:%S').gz" >> /home/ubuntu/backup_mongo.sh
+        echo "aws s3 mv ./backup.gz s3://${aws_s3_bucket.this.bucket}/backup-\$(date '+%Y-%m-%d-%H:%M:%S').gz" >> /home/ubuntu/backup_mongo.sh
         chmod u+x /home/ubuntu/backup_mongo.sh
 
         echo "*/10 * * * * root /home/ubuntu/backup_mongo.sh" >> /etc/crontab

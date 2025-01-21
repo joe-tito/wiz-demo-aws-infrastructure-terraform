@@ -3,7 +3,7 @@
 ########################
 
 resource "aws_s3_bucket" "this" {
-  bucket        = "wiz-demo-mongo-snapshots"
+  bucket        = "wiz-demo-mongo-snapshots-bucket"
   force_destroy = true
 }
 
