@@ -8,9 +8,8 @@ resource "aws_security_group" "ingress_mongo_all" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = [
-      module.vpc.private_subnets_cidr_blocks
-    ]
+    cidr_blocks = module.vpc.private_subnets_cidr_blocks
+
   }
 }
 
