@@ -120,39 +120,39 @@ resource "kubernetes_service_account" "web_app_service_account" {
   }
 }
 
-resource "kubernetes_deployment" "web-app" {
+# resource "kubernetes_deployment" "web-app" {
 
-  metadata {
-    name = var.container_name
-  }
+#   metadata {
+#     name = var.container_name
+#   }
 
-  spec {
-    replicas = 3
+#   spec {
+#     replicas = 3
 
-    selector {
-      match_labels = {
-        "app.kubernetes.io/name" = var.container_name
-      }
-    }
+#     selector {
+#       match_labels = {
+#         "app.kubernetes.io/name" = var.container_name
+#       }
+#     }
 
-    template {
-      metadata {
-        labels = {
-          "app.kubernetes.io/name" = var.container_name
-        }
-      }
+#     template {
+#       metadata {
+#         labels = {
+#           "app.kubernetes.io/name" = var.container_name
+#         }
+#       }
 
-      spec {
-        service_account_name = kubernetes_service_account.web_app_service_account.metadata[0].name
-        container {
-          name  = var.container_name
-          image = "${aws_ecr_repository.this.repository_url}:386e4bab"
+#       spec {
+#         service_account_name = kubernetes_service_account.web_app_service_account.metadata[0].name
+#         container {
+#           name  = var.container_name
+#           image = "${aws_ecr_repository.this.repository_url}:386e4bab"
 
-          port {
-            container_port = 3000
-          }
-        }
-      }
-    }
-  }
-}
+#           port {
+#             container_port = 3000
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
