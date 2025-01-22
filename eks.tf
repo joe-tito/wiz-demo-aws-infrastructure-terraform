@@ -85,7 +85,7 @@ resource "aws_iam_role_policy_attachment" "web_app_iam_role_policy_attachment" {
   policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
 
-resource "kubernetes_service_account" "name" {
+resource "kubernetes_service_account" "web_app_service_account" {
   metadata {
     name = "${var.container_name}-service-account"
     annotations = {
@@ -117,7 +117,7 @@ resource "kubernetes_deployment" "web-app" {
       }
 
       spec {
-        service_account_name = kubernetes_service_account.name
+        service_account_name = kubernetes_service_account.web_app_service_account.metadata[0].name
         container {
           name  = var.container_name
           image = "${aws_ecr_repository.this.repository_url}:386e4bab"
