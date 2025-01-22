@@ -24,3 +24,9 @@ variable "container_port" {
   description = "Port to expose for the web app container"
   default     = 3000
 }
+
+variable "container_tag" {
+  type        = string
+  description = "Tag version of container image to use"
+  default     = "386e4bab"
+}
