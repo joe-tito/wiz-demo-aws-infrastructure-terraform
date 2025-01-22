@@ -81,7 +81,7 @@ resource "aws_iam_role" "web_app_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "web_app_iam_role_policy_attachment" {
-  role       = aws_iam_role.web_app_role
+  role       = aws_iam_role.web_app_role.name
   policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
 
