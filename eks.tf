@@ -71,7 +71,7 @@ resource "aws_iam_role" "web_app_role" {
         {
           "Action": "sts:AssumeRole",
           "Principal": {
-            "Service": "ek.amazonaws.com"
+            "Service": "eks.amazonaws.com"
           },
           "Effect": "Allow"
         }
