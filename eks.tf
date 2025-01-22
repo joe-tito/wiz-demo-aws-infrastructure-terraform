@@ -61,36 +61,62 @@ resource "kubernetes_service" "ec2-mongo-service" {
   }
 }
 
-resource "aws_iam_role" "web_app_role" {
-  name = "web_app_role"
+# resource "aws_iam_role" "web_app_role" {
+#   name = "web_app_role"
 
-  assume_role_policy = <<EOF
-    {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-          "Action": "sts:AssumeRole",
-          "Principal": {
-            "Service": "eks.amazonaws.com"
-          },
-          "Effect": "Allow"
-        }
-      ]
-    }
-  EOF
-}
+#   assume_role_policy = <<EOF
+#     {
+#       "Version": "2012-10-17",
+#       "Statement": [
+#         {
+#           "Action": "sts:AssumeRole",
+#           "Principal": {
+#             "Service": "eks.amazonaws.com"
+#           },
+#           "Effect": "Allow"
+#         }
+#       ]
+#     }
+#   EOF
+# }
 
-resource "aws_iam_role_policy_attachment" "web_app_iam_role_policy_attachment" {
-  role       = aws_iam_role.web_app_role.name
-  policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+# resource "aws_iam_role_policy_attachment" "web_app_iam_role_policy_attachment" {
+#   role       = aws_iam_role.web_app_role.name
+#   policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+# }
+
+resource "kubernetes_cluster_role_binding" "example" {
+  metadata {
+    name = "terraform-example"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  # subject {
+  #   kind      = "User"
+  #   name      = "admin"
+  #   api_group = "rbac.authorization.k8s.io"
+  # }
+  subject {
+    kind = "ServiceAccount"
+    name = kubernetes_service_account.web_app_service_account.metadata[0].name
+    # namespace = "kube-system"
+  }
+  # subject {
+  #   kind      = "Group"
+  #   name      = "system:masters"
+  #   api_group = "rbac.authorization.k8s.io"
+  # }
 }
 
 resource "kubernetes_service_account" "web_app_service_account" {
   metadata {
     name = "${var.container_name}-service-account"
-    annotations = {
-      "eks.amazonaws.com/role-arn" : aws_iam_role.web_app_role.arn
-    }
+    # annotations = {
+    #   "eks.amazonaws.com/role-arn" : aws_iam_role.web_app_role.arn
+    # }
   }
 }
 
