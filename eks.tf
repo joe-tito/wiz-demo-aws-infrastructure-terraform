@@ -16,6 +16,7 @@ module "eks" {
     node_pools = ["general-purpose"]
   }
 
+
 }
 
 resource "kubernetes_service" "web-app-service" {
@@ -60,6 +61,39 @@ resource "kubernetes_service" "ec2-mongo-service" {
   }
 }
 
+resource "aws_iam_role" "web_app_role" {
+  name = "web_app_role"
+
+  assume_role_policy = <<EOF
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": "sts:AssumeRole",
+          "Principal": {
+            "Service": "ek.amazonaws.com"
+          },
+          "Effect": "Allow"
+        }
+      ]
+    }
+  EOF
+}
+
+resource "aws_iam_role_policy_attachment" "web_app_iam_role_policy_attachment" {
+  role       = aws_iam_role.web_app_role
+  policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+}
+
+resource "kubernetes_service_account" "name" {
+  metadata {
+    name = "${var.container_name}-service-account"
+    annotations = {
+      "eks.amazonaws.com/role-arn" : aws_iam_role.web_app_role.arn
+    }
+  }
+}
+
 resource "kubernetes_deployment" "web-app" {
 
   metadata {
@@ -83,6 +117,7 @@ resource "kubernetes_deployment" "web-app" {
       }
 
       spec {
+        service_account_name = kubernetes_service_account.name
         container {
           name  = var.container_name
           image = "${aws_ecr_repository.this.repository_url}:386e4bab"
