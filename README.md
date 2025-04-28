@@ -1,4 +1,19 @@
-<!-- BEGIN_TF_DOCS -->
+# Infrastructure for Web App Running on AWS EKS
+
+This repository sets up the required infrastructure to deploy a containerized NextJS web application to AWS EKS which interacts with MongoDB running on an EC2 instance.
+
+This repo deploys the following:
+
+- VPC / Public & Private Subnets
+- Load Balancer & NAT Gateway
+- ECR to store images
+- EKS to run NextJS containerized web application
+- MongoDB running on an EC2 node
+- S3 for storing DB backups
+
+![Architecture](/images/architecture.png)
+
+# Terraform Docs
 
 ## Requirements
 
